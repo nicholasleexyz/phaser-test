@@ -32,26 +32,18 @@ class Example extends Phaser.Scene {
 
         for (let y = 0; y < m.length; y++) {
             for (let x = 0; x < m[y].length; x++) {
-                // let val = m[y][x] == 1 ? 'water' : 'dirt';
                 let val = m[y][x] == 1 ? 'dirt' : 'water';
                 let pos = [x * 64 + 32, y * 64 + 32];
                 let img = this.add.image(pos[0], pos[1], val)
             }
         }
 
-        player = this.add.image(128 * 32 + 32, 128 * 32 + 32, "player");
-        // camera.setBounds(0, 0, 100, 100, true);
+        player = this.add.image(100 * 32 + 32, 128 * 32 + 32, "player");
         camera.startFollow(player);
-
-        // this.add.image(128 * 8, 128 * 8, 'grass'));
-        // .scaleToGameW(bg, 2);
     }
 
     update() {
-        // let bg = this.add.image(0, 0, "background").setOrigin(0, 0);
         movePlayer(player, moveSpeed);
-        // camera.centerOn(player.x, player.y);
-        // this.cameras.main.startFollow(player, true, 0.05, 0, -200, 120);
     }
 
 }
