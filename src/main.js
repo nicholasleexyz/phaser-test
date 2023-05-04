@@ -4,6 +4,7 @@ let keyBack;
 let keyLeft;
 let keyRight;
 let moveSpeed = 10;
+let camera;
 //https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_breakout_game_Phaser/Collision_detection
 class Example extends Phaser.Scene {
     constructor() {
@@ -11,17 +12,20 @@ class Example extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('grass', 'assets/grass.png');
+        this.load.image('player', 'assets/octopus.png');
         this.load.image('dirt', 'assets/dirt.png');
         this.load.image('water', 'assets/water.png');
-        this.load.text('map', 'assets/asdf.txt');
+        this.load.text('map', 'assets/jkl.txt');
+
     }
 
     create() {
+
         keyForward = this.input.keyboard.addKey('W');
         keyBack = this.input.keyboard.addKey('S');
         keyLeft = this.input.keyboard.addKey('A');
         keyRight = this.input.keyboard.addKey('D');
+        camera = this.cameras.main;
 
         let cache = this.cache.text;
         let m = cache.get('map').split('\n');
@@ -30,16 +34,24 @@ class Example extends Phaser.Scene {
             for (let x = 0; x < m[y].length; x++) {
                 // let val = m[y][x] == 1 ? 'water' : 'dirt';
                 let val = m[y][x] == 1 ? 'dirt' : 'water';
-                let pos = [x * 16 + 8, y * 16 + 8];
-                this.add.image(pos[0], pos[1], val)
+                let pos = [x * 64 + 32, y * 64 + 32];
+                let img = this.add.image(pos[0], pos[1], val)
             }
         }
 
-        player = this.add.image(128 * 8, 128 * 8, 'grass');
+        player = this.add.image(128 * 32 + 32, 128 * 32 + 32, "player");
+        // camera.setBounds(0, 0, 100, 100, true);
+        camera.startFollow(player);
+
+        // this.add.image(128 * 8, 128 * 8, 'grass'));
+        // .scaleToGameW(bg, 2);
     }
 
     update() {
+        // let bg = this.add.image(0, 0, "background").setOrigin(0, 0);
         movePlayer(player, moveSpeed);
+        // camera.centerOn(player.x, player.y);
+        // this.cameras.main.startFollow(player, true, 0.05, 0, -200, 120);
     }
 
 }
@@ -61,8 +73,8 @@ function movePlayer(p, speed) {
 
 const config = {
     type: Phaser.AUTO,
-    width: 128 * 16,
-    height: 128 * 16,
+    width: 1000,
+    height: 1000,
     physics: {
         default: 'arcade',
         arcade: {
