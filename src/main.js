@@ -3,8 +3,8 @@ let keyForward;
 let keyBack;
 let keyLeft;
 let keyRight;
-let moveSpeed = 2;
-
+let moveSpeed = 10;
+//https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_breakout_game_Phaser/Collision_detection
 class Example extends Phaser.Scene {
     constructor() {
         super("hello-world");
@@ -45,15 +45,19 @@ class Example extends Phaser.Scene {
 }
 
 function movePlayer(p, speed) {
-        if(keyForward.isDown)
-            p.y -= speed;
-        if(keyBack.isDown)
-            p.y += speed;
-        if(keyLeft.isDown)
-            p.x -= speed;
-        if(keyRight.isDown)
-            p.x += speed;
+    if (keyForward.isDown && keyLeft.isDown || keyBack.isDown && keyLeft.isDown || keyForward.isDown && keyRight.isDown || keyBack.isDown && keyRight.isDown)
+        speed *= 0.7071;
+
+    if (keyForward.isDown)
+        p.y -= speed;
+    if (keyBack.isDown)
+        p.y += speed;
+    if (keyLeft.isDown)
+        p.x -= speed;
+    if (keyRight.isDown)
+        p.x += speed;
 }
+
 
 const config = {
     type: Phaser.AUTO,
